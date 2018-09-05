@@ -10,10 +10,10 @@ class App extends Component {
       alignContent: 'center',
       flexDirection: 'column',
     }
-
+    
     return (
       <div style={style}>
-
+        
       </div>
     );
   }
