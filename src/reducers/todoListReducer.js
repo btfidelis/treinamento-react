@@ -5,7 +5,7 @@ export default (state={
 }, action) => {
   switch(action.type) {
     case "ADD_TODO": {
-      return state
+      return { ...state, todos: [ ...state.todos, action.payload ] }
     }
 
     case "REMOVE_TODO": {
