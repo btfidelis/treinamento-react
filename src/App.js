@@ -2,32 +2,27 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import './App.css';
 
+import TodoList from './components/TodoList'
+
 const connectFn = connect(store => ({
-  
+  todoList: store.todoList.todos
 }))
-
-
 class App extends Component {
+  markTodoAsDone(id) {
+    const todoList = this.props.todoList.map((todo) => { 
+      if (todo.id !== id) {
+        return todo
+      }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      email: '',
-      pass: ''
-    }
-  }
+      return { ...todo, done: true }
+    })
 
+    this.props.dispatch({ 
+      type: 'REMOVE_TODO', 
+      payload: todoList
+    })
 
-  handleInput(inputName) {
-    const fn = e => {
-      const val = e.target.value
-      const state = {}
-      state[inputName] = val
-
-      this.setState(() => state)
-    }
-
-    return fn.bind(this)
+    
   }
 
   render() {
@@ -40,23 +35,11 @@ class App extends Component {
 
     return (
       <div style={style}>
-        <div>
-          <label>Email</label>
-          <input 
-            type="text" 
-            onChange={this.handleInput('email')} 
-          />
-        </div>
-        <div>
-          <label>Senha</label>
-          <input 
-            type="password" 
-            onChange={this.handleInput('pass')} 
-          />
-        </div>
-        <div>
-          <button onClick={() => alert(this.state.email)}>aquii</button>
-        </div>
+        <h1>Todo List</h1>
+        <TodoList 
+          removeTodo={this.markTodoAsDone.bind(this)}
+          todos={this.props.todoList} 
+        />
       </div>
     );
   }
